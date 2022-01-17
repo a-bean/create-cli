@@ -1,0 +1,20 @@
+stages:
+  - build
+  - deploy
+
+dev_static_build:
+  stage: build
+  script:
+    - CI=true pnpm i --production
+    - npm run build
+    # 添加证书
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - echo "$DEV_SSH_KEY" | tr -d '\r' | ssh-add -
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - chmod 700 ~/.ssh/config
+    - rsync -azqP dist/ root@192.168.50.24:/var/www/template-vite --delete
+  tags:
+    - common-shell
+  when:
+    - manual

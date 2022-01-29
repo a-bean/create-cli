@@ -2,6 +2,7 @@
   "name": "cy_aps",
   "version": "0.0.0",
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "prepare": "node ./.husky/prepare.js",
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",

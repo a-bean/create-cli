@@ -40,6 +40,12 @@ module.exports = {
     'no-shadow': 'off',
     '@typescript-eslint/no-shadow': 'error',
 
+    'no-restricted-syntax': 'off',
+    'no-param-reassign': 'off',
+    'no-continue': 'off',
+    'no-await-in-loop': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
+
     'import/no-extraneous-dependencies': ['error', { devDependencies: ['**/*.ts', '**/*.js'] }],
     'import/extensions': [
       'error',

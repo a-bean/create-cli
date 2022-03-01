@@ -12,6 +12,8 @@ module.exports = {
   globals: {
     // 不需要在全局引入,vue 编译期间自动注入
     defineProps: 'readonly',
+    defineEmits: 'readonly',
+    defineExpose: 'readonly',
   },
   plugins: ['@typescript-eslint', 'prettier', 'html'],
   parser: 'vue-eslint-parser',

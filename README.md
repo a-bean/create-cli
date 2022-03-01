@@ -1,5 +1,7 @@
 # 说明
+
 ## 目录结构
+
 ```
  ├─ .husky                     // husky 钩子目录
  | ├─ _
@@ -7,7 +9,7 @@
  | | └─  .gitignore
  | ├─  prepare.js
  | └─  pre-commit
- ├─ .vscode 
+ ├─ .vscode
  | └─  extensions.json
  ├─ env                        // 环境变量目录
  | └─  .env
@@ -22,7 +24,7 @@
  | | └─  common.ts
  | ├─ hooks                    // 通用的hooks函数
  | ├─ router                   // 路由相关
- | | └─  index.ts              
+ | | └─  index.ts
  | ├─ styles                   // 公用的css提取放置目录
  | | ├─  resetArco.scss
  | | └─  global.scss
@@ -46,7 +48,9 @@
  ├─  .gitignore
  └─  .eslintrc.js
 ```
-view 目录demo
+
+view 目录 demo
+
 ```
   ├─ views
     └─  login
@@ -57,42 +61,53 @@ view 目录demo
 ```
 
 ## 代码提交校验
-设置的`pre commit`钩子 在提交过程中, 会经过以下过程  **请勿跳过**
-  1. `typescript` 类型校验.  (不放在`lint-stage`中的原因: 只校验占存区的目录会导致校验不完全.)
-  2. `lint-stage` 对暂存区文件校验 
-      1. `prettier` 文件格式化. (1. 统一风格; 2.避免如空格类修改引起的文件变化,方便CR.)
-      2. `eslint` 校验风格. (1. 统一风格; 2. 避免由于写法问题导致的部分坑.)
-  
 
-## 写tsx
+设置的`pre-commit`钩子 在提交过程中, 会经过以下过程 **请勿跳过**
+
+1. `typescript` 类型校验. (不放在`lint-stage`中的原因: 只校验占存区的目录会导致校验不完全.)
+2. `lint-stage` 对暂存区文件校验
+   1. `prettier` 文件格式化. (1. 统一风格; 2.避免如空格类修改引起的文件变化,方便 CR.)
+   2. `eslint` 校验风格. (1. 统一风格; 2. 避免由于写法问题导致的部分坑.)
+
+设置的`commit-msg`钩子 在提交过程中会校验提交信息
+
+1. [提交规范](https://www.npmjs.com/package/@commitlint/config-conventional)
+2. 可使用`npm run commit` 使用`commitizen`自动生成`commitmsg`
+
+## 写 tsx
+
 将 `script`的`lang`属性设置为`tsx`, 可与模板结合使用;
-``` tsx
+
+```tsx
 <script lang='tsx'>
   const div = () => <div></div>
-</script> 
+</script>
 
 ```
 
 ## ci
-目前仅配置`dev`环境的ci.   
+
+目前仅配置`dev`环境的 ci.  
 修改`gitlab-ci` 中的`line:16 template-vite` 为实际目录名
 
-
 ## 建议
-项目中如非必要请勿使用`any` (请用`unknown`替代), 实际体验中, 类型预先定义花费的时间并不会比先设置`any`一路莽来的多. 并且, 良好的`ide`提示, 会在开发阶段揪出潜在的问题; 
+
+项目中如非必要请勿使用`any` (请用`unknown`替代), 实际体验中, 类型预先定义花费的时间并不会比先设置`any`一路莽来的多. 并且, 良好的`ide`提示, 会在开发阶段揪出潜在的问题;
 
 ## 使用
+
 1. `git clone` 该模板
 2. 删除`.git` 目录
 3. 重新执行 `git init`
 4. 设置`git remote` 为实际项目目录
 5. 正常开发
 
-
 ## TODO
 
-### 打包docker 镜像
+### 打包 docker 镜像
+
 此项交付项目使用较多, 根据项目不通, 配置变化较大, 暂未通用化.
 
 ### cli
+
 通过命令行生成项目

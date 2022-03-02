@@ -47,6 +47,7 @@ module.exports = {
     'no-continue': 'off',
     'no-await-in-loop': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
+    '@typescript-eslint/no-explicit-any': 'error',
 
     'import/no-extraneous-dependencies': ['error', { devDependencies: ['**/*.ts', '**/*.js'] }],
     'import/extensions': [

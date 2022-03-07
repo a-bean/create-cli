@@ -74,6 +74,11 @@ view 目录 demo
 1. [提交规范](https://www.npmjs.com/package/@commitlint/config-conventional)
 2. 可使用`npm run commit` 使用`commitizen`自动生成`commitmsg`
 
+设置的`pre-push`钩子 在提交过程中会校验分支名
+目前仅支持以下分支提交
+稳定分支: `master` `main` `dev` `test` `prod`
+不稳定分支: `feat-*`功能分支, `bugfix-*`bug 修复分支 `test-*`测试分支
+
 ## 写 tsx
 
 将 `script`的`lang`属性设置为`tsx`, 可与模板结合使用;

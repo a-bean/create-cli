@@ -14,5 +14,5 @@ if [[ $branch =~ ^(feat|bugfix|test)-.+$ ]]
 then
   exit 0
 fi
-echo "\033[31m分支名 $branch 有误 \033[0m \033[33m只允许 ${stable_branch[@]}, feat-*, bugfix-*, test-* 等分支名\033[0m"
+echo -e "\033[31m分支名 $branch 有误 \033[0m \033[33m只允许 ${stable_branch[@]}, feat-*, bugfix-*, test-* 等分支名\033[0m"
 exit 1

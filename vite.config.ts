@@ -18,5 +18,13 @@ export default defineConfig({
     jsxFactory: 'h',
     jsxFragment: 'Fragment',
     jsxInject: "import { h } from 'vue';",
-  }
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        charset: false,
+        additionalData: '@import "@/styles/variables.scss";',
+      },
+    },
+  },
 });

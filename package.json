@@ -4,7 +4,7 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "prepare": "node ./.husky/prepare.js",
-    "pre-commit": "vue-tsc --noEmit && lint-staged",
+    "pre-commit": "NODE_ENV=production vue-tsc --noEmit && lint-staged",
     "commit-msg": "commitlint -e",
     "commit": "git cz",
     "dev": "vite",

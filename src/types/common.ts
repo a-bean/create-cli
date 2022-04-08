@@ -9,15 +9,12 @@ export const enum EResponseCode {
   error = -1,
   /** 错误正常code */
   success = 0,
-  /** 项目不存在code */
-  noProject = 1404,
-}
-
-export enum EAlignType {
-  center = 'center',
-  left = 'left',
-  right = 'right',
-  default = 'left',
 }
 
 export type VoidFn<T = unknown> = (arg: T) => void;
+
+/** 下载文件的类型 */
+export type TDownLoad = {
+  name: string;
+  blob: Blob;
+};

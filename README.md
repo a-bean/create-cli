@@ -90,6 +90,11 @@ view 目录 demo
 
 ```
 
+## 全局的scss变量
+
+文件地址: `styles/variables.scss`;   
+自动插入到所有的scss文件前;
+
 ## ci
 
 目前仅配置`dev`环境的 ci.  

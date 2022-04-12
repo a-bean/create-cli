@@ -82,7 +82,7 @@ view 目录 demo
 ## 写 tsx
 
 将 `script`的`lang`属性设置为`tsx`, 可与模板结合使用;
-
+> 如果使用 import router from '@/router 的方式引入router, 会导致hmr 出问题
 ```tsx
 <script lang='tsx'>
   const div = () => <div></div>

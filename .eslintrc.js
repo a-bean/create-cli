@@ -50,6 +50,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'error',
     '@typescript-eslint/no-empty-function': 'off',
 
+    'vue/multi-word-component-names': 'off',
     'import/no-extraneous-dependencies': ['error', { devDependencies: ['**/*.ts', '**/*.js'] }],
     'import/extensions': [
       'error',

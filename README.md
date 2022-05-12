@@ -76,8 +76,8 @@ view 目录 demo
 
 设置的`pre-push`钩子 在提交过程中会校验分支名   
   目前仅支持以下分支提交   
-  稳定分支: `master` `main` `dev` `test` `prod`   
-  不稳定分支: `feat-*`功能分支, `bugfix-*`bug 修复分支 `test-*`测试分支
+  稳定分支: `master` `main` `dev` `test`   
+  不稳定分支: `feat-*`功能分支, `bugfix-*` `hotfix-*`bug 修复分支 `test-*`测试分支 `dev-*` 开发环境部署分支
 
 ## 写 tsx
 

@@ -9,7 +9,12 @@
     "commit": "git cz",
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
-    "preview": "vite preview"
+    "genConfig": "node ./deploy/genNginxConf.js",
+    "preview": "vite preview",
+    "build:dev": "npm run genConfig && vue-tsc --noEmit && vite build --mode dev",
+    "build:test": "npm run genConfig && vue-tsc --noEmit && vite build --mode test",
+    "build:demo": "npm run genConfig && vue-tsc --noEmit && vite build --mode demo",
+    "build:prd": "npm run genConfig && vue-tsc --noEmit && vite build --mode prd"
   },
   "dependencies": {
     "@arco-design/web-vue": "^2.26.0",

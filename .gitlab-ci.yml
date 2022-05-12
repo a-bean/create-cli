@@ -2,19 +2,42 @@ stages:
   - build
   - deploy
 
+workflow:
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      variables:
+        TAG: project_$CI_COMMIT_REF_NAME:$CI_COMMIT_SHORT_SHA
+    - if: '$CI_COMMIT_REF_NAME'
+      variables:
+        TAG: project_$CI_COMMIT_REF_NAME:latest
+
 dev_static_build:
   stage: build
+  variables:
+    BRANCH: $CI_COMMIT_REF_NAME
   script:
-    - CI=true pnpm i --production
-    - npm run build
-    # 添加证书
-    - mkdir -p ~/.ssh
-    - eval $(ssh-agent -s)
-    - echo "$DEV_SSH_KEY" | tr -d '\r' | ssh-add -
-    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-    - chmod 700 ~/.ssh/config
-    - rsync -azqP dist/ root@192.168.50.24:/var/www/template-vite --delete
+    - echo $BRANCH
+    - echo $TAG
   tags:
     - common-shell
-  when:
-    - manual
+  allow_failure: false
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      when: manual
+    - if: '$CI_COMMIT_REF_NAME == "develop" || $CI_COMMIT_REF_NAME == "test"'
+      when: on_success
+
+dev_static_deploy:
+  stage: deploy
+  variables:
+    BRANCH: $CI_COMMIT_REF_NAME
+  script:
+    - echo $BRANCH
+    - echo $TAG
+  tags:
+    - common-shell
+  rules:
+    - if: '$CI_COMMIT_REF_NAME == "master"'
+      when: manual
+    - if: '$CI_COMMIT_REF_NAME == "develop" || $CI_COMMIT_REF_NAME == "test"'
+      when: on_success

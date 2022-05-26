@@ -74,15 +74,17 @@ view 目录 demo
 1. [提交规范](https://www.npmjs.com/package/@commitlint/config-conventional)
 2. 可使用`npm run commit` 使用`commitizen`自动生成`commitmsg`
 
-设置的`pre-push`钩子 在提交过程中会校验分支名   
-  目前仅支持以下分支提交   
-  稳定分支: `master` `main` `dev` `test`   
-  不稳定分支: `feat-*`功能分支, `bugfix-*` `hotfix-*`bug 修复分支 `test-*`测试分支 `dev-*` 开发环境部署分支
+设置的`pre-push`钩子 在提交过程中会校验分支名  
+ 目前仅支持以下分支提交  
+ 稳定分支: `master` `main` `dev` `test`  
+ 不稳定分支: `feat-*`功能分支, `bugfix-*` `hotfix-*`bug 修复分支 `test-*`测试分支 `dev-*` 开发环境部署分支
 
 ## 写 tsx
 
 将 `script`的`lang`属性设置为`tsx`, 可与模板结合使用;
-> 如果使用 import router from '@/router 的方式引入router, 会导致hmr 出问题
+
+> 如果使用 import router from '@/router 的方式引入 router, 会导致 hmr 出问题
+
 ```tsx
 <script lang='tsx'>
   const div = () => <div></div>
@@ -90,10 +92,10 @@ view 目录 demo
 
 ```
 
-## 全局的scss变量
+## 全局的 scss 变量
 
-文件地址: `styles/variables.scss`;   
-自动插入到所有的scss文件前;
+文件地址: `styles/variables.scss`;  
+自动插入到所有的 scss 文件前;
 
 ## ci
 
@@ -102,7 +104,22 @@ view 目录 demo
 
 ## 建议
 
-项目中如非必要请勿使用`any` (请用`unknown`替代), 实际体验中, 类型预先定义花费的时间并不会比先设置`any`一路莽来的多. 并且, 良好的`ide`提示, 会在开发阶段揪出潜在的问题;
+1. 项目中如非必要请勿使用`any` (请用`unknown`替代), 实际体验中, 类型预先定义花费的时间并不会比先设置`any`一路莽来的多. 并且, 良好的`ide`提示, 会在开发阶段揪出潜在的问题;
+
+2. Api 的使用
+   在 `api` 目录底下创建 `index.ts`
+   如下: 命名大驼峰;
+
+```typescript
+export * as XxxApi from './other';
+```
+
+使用的地方
+
+```typescript
+import { XxxApi } from '@/api';
+XxxApi.xxx;
+```
 
 ## 使用
 

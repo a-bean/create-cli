@@ -11,10 +11,9 @@
     "build": "vue-tsc --noEmit && vite build",
     "genConfig": "node ./deploy/genNginxConf.js",
     "preview": "vite preview",
-    "build:dev": "npm run genConfig && vue-tsc --noEmit && vite build --mode dev",
-    "build:test": "npm run genConfig && vue-tsc --noEmit && vite build --mode test",
-    "build:demo": "npm run genConfig && vue-tsc --noEmit && vite build --mode demo",
-    "build:prd": "npm run genConfig && vue-tsc --noEmit && vite build --mode prd"
+    "build:dev": "cross-env ENV_NAME=dev npm run genConfig && vue-tsc --noEmit && vite build --mode dev",
+    "build:test": "cross-env ENV_NAME=test npm run genConfig && vue-tsc --noEmit && vite build --mode test",
+    "build:prod": "cross-env ENV_NAME=prod npm run genConfig && vue-tsc --noEmit && vite build --mode prod"
   },
   "dependencies": {
     "@arco-design/web-vue": "^2.33.1",
@@ -41,6 +40,7 @@
     "@typescript-eslint/eslint-plugin": "^5.31.0",
     "@typescript-eslint/parser": "^5.31.0",
     "commitizen": "^4.2.5",
+    "cross-env": "^7.0.3",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.20.0",
     "eslint-config-airbnb-base": "^15.0.0",

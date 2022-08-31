@@ -1,43 +1,67 @@
+include:
+  - project: 'lizelong/ci-job'
+    ref: main
+    file: 'ding_work_notice.yml'
+
 stages:
   - build
   - deploy
+
+cache:
+  key: '$CI_COMMIT_SHORT_SHA'
+  paths:
+    - dist/
+    - deploy/
+
+# 请修改一下tag的项目名 替换projectName
+variables:
+  TAG: harbor.deepwisdomai.com/deepwisdom/projectName_$CI_COMMIT_REF_NAME:$CI_COMMIT_SHORT_SHA
 
 workflow:
   rules:
     - if: '$CI_COMMIT_REF_NAME == "master"'
       variables:
-        TAG: project_$CI_COMMIT_REF_NAME:$CI_COMMIT_SHORT_SHA
+        MODE: 'prod'
+    - if: '$CI_COMMIT_REF_NAME == "test"'
+      variables:
+        MODE: 'test'
     - if: '$CI_COMMIT_REF_NAME'
       variables:
-        TAG: project_$CI_COMMIT_REF_NAME:latest
+        MODE: 'dev'
 
 dev_static_build:
   stage: build
-  variables:
-    BRANCH: $CI_COMMIT_REF_NAME
   script:
-    - echo $BRANCH
-    - echo $TAG
+    - CI=true pnpm i
+    - npm run build:$MODE
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - dist/
+      - deploy/
   tags:
     - common-shell
-  allow_failure: false
   rules:
-    - if: '$CI_COMMIT_REF_NAME == "master"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - if: '$CI_COMMIT_REF_NAME =~ /^(master|dev|test)$/'
+      when: always
+    - if: '$CI_COMMIT_REF_NAME =~ /^(feat|feture)-.+$/'
       when: manual
-    - if: '$CI_COMMIT_REF_NAME == "develop" || $CI_COMMIT_REF_NAME == "test"'
-      when: on_success
+  extends: .ding_work_notice
 
-dev_static_deploy:
+docker_deploy:
   stage: deploy
-  variables:
-    BRANCH: $CI_COMMIT_REF_NAME
+  before_script:
+    - docker login -u $HARBOR_CCR -p $HARBOR_CCR_PASSWORD harbor.deepwisdomai.com
   script:
-    - echo $BRANCH
-    - echo $TAG
+    - docker build -t $TAG .
+    - docker push $TAG
+  when: manual
   tags:
     - common-shell
-  rules:
-    - if: '$CI_COMMIT_REF_NAME == "master"'
-      when: manual
-    - if: '$CI_COMMIT_REF_NAME == "develop" || $CI_COMMIT_REF_NAME == "test"'
-      when: on_success
+  only:
+    - test
+    - dev
+    - master
+  extends: .ding_work_notice

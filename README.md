@@ -11,6 +11,11 @@
  | └─  pre-commit
  ├─ .vscode
  | └─  extensions.json
+ ├─ deploy                     // 部署相关, 打包docker时候使用的ng配置;
+ | └─  nginx/nginx.conf        // 最外层的ng配置 (一般情况不需要修改)
+ | ├─ dev.conf                 // 开发环境 ng配置  (其他可参考dev.conf修改, 添加代理)
+ | ├─ prod.conf                // 生产环境 ng配置
+ | ├─ test.conf                // 测试环境 ng配置
  ├─ env                        // 环境变量目录
  | └─  .env
  ├─ src
@@ -99,8 +104,12 @@ view 目录 demo
 
 ## ci
 
-目前仅配置`dev`环境的 ci.  
-修改`gitlab-ci` 中的`line:16 template-vite` 为实际目录名
+目前仅配置`dev`环境的 `build` stage.  
+修改`gitlab-ci` 中的`line:18 projectName` 为实际目录名
+
+## 打包 docker 镜像
+
+参考 ci 中的 docker-deploy 任务;
 
 ## 建议
 
@@ -130,10 +139,6 @@ XxxApi.xxx;
 5. 正常开发
 
 ## TODO
-
-### 打包 docker 镜像
-
-此项交付项目使用较多, 根据项目不通, 配置变化较大, 暂未通用化.
 
 ### cli
 

@@ -2,7 +2,7 @@
   <router-view></router-view>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="tsx"></script>
 
 <style lang="scss">
 body {

@@ -29,3 +29,25 @@ export function seedRandom(max: number, min: number, seed: number): number {
   const rnd = rSeed / 233280.0;
   return Math.round(min + (rnd * rMax - rMin));
 }
+
+/**
+ * 判断一个值的类型是否是 type
+ * @param param unknow
+ * @param type type
+ * @returns boolean
+ */
+export const isTargetType = (param: unknown, type: `[object ${string}]`) => {
+  return Object.prototype.toString.call(param) === type;
+};
+/**
+ * 判断一个值是否是boolean
+ * @param param 参数
+ * @returns boolean
+ */
+export const isBoolean = (param: unknown) => isTargetType(param, '[object Boolean]');
+/**
+ * 判断一个值是否是Object
+ * @param param 参数
+ * @returns boolean
+ */
+export const isObject = (param: unknown) => isTargetType(param, '[object Object]');

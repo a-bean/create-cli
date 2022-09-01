@@ -22,6 +22,7 @@ specifiers:
   eslint-plugin-import: ^2.26.0
   eslint-plugin-prettier: ^4.2.1
   eslint-plugin-vue: ^8.7.1
+  evtd: ^0.2.4
   husky: ^7.0.4
   lint-staged: ^12.5.0
   prettier: ^2.7.1
@@ -38,6 +39,7 @@ dependencies:
   '@vitejs/plugin-vue': 3.0.1_vite@3.0.3+vue@3.2.37
   '@vitejs/plugin-vue-jsx': 2.0.0_vite@3.0.3+vue@3.2.37
   axios: 0.24.0
+  evtd: 0.2.4
   sass: 1.54.0
   typescript: 4.7.4
   vite: 3.0.3_sass@1.54.0
@@ -2336,6 +2338,10 @@ packages:
     resolution: {integrity: sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==}
     engines: {node: '>=0.10.0'}
     dev: true
+
+  /evtd/0.2.4:
+    resolution: {integrity: sha512-qaeGN5bx63s/AXgQo8gj6fBkxge+OoLddLniox5qtLAEY5HSnuSlISXVPxnSae1dWblvTh4/HoMIB+mbMsvZzw==}
+    dev: false
 
   /execa/5.1.1:
     resolution: {integrity: sha512-8uSpZZocAZRBAPIEINJj3Lo9HyGitllczc27Eh5YYojjMFMn8yHMDMaUHE2Jqfq05D/wucwI4JGURyXt1vchyg==}

@@ -9,6 +9,8 @@ export const enum EResponseCode {
   error = -1,
   /** 错误正常code */
   success = 0,
+  /** 登陆失效 */
+  needAuthorization = 401,
 }
 
 export type VoidFn<T = unknown> = (arg: T) => void;

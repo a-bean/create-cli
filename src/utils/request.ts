@@ -1,11 +1,20 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse, Canceler } from 'axios';
 import { TResponse, EResponseCode } from '@/types/common';
 import usePromise from '@/hooks/usePromise';
+import { Message } from '@arco-design/web-vue';
 
 const { CancelToken } = axios;
 
+const cancelString = Math.random().toString().slice(2);
 const timeout = 1 * 60 * 1000;
 const baseURL = (import.meta.env.VITE_REQUEST_PREFIX as string) || '/api';
+
+/** 退出登录401后, 把之前的请求都取消掉 */
+let globalCancelToken = CancelToken.source();
+/** 重置全局canceltoken */
+const resetGlobalCancelToken = () => {
+  globalCancelToken = CancelToken.source();
+};
 
 const instance = axios.create({
   baseURL,
@@ -18,6 +27,9 @@ const instance = axios.create({
  * @returns 固定返回 TResponse 格式; 在外部判断code 是否为 EResponseCode.success
  */
 export const request = async <T = unknown>(config: AxiosRequestConfig) => {
+  const source = globalCancelToken;
+  config.cancelToken = config.cancelToken || source.token; // 全局添加cancelToken
+
   // 处理二进制的情况
   const resolveDownload = (res: AxiosResponse<TResponse<T>>) => {
     const { data } = res;
@@ -51,6 +63,15 @@ export const request = async <T = unknown>(config: AxiosRequestConfig) => {
     };
     return P;
   };
+  const handleAuthorizationFaied = (data: TResponse) => {
+    const { code } = data;
+    if (code === EResponseCode.needAuthorization) {
+      Message.error('登录失效，请重新登录！');
+      source.cancel(cancelString);
+      resetGlobalCancelToken();
+      // TODO 退出并跳转到登录页
+    }
+  };
   // 是否是下载
   const isdownload = config.responseType === 'blob';
 
@@ -61,8 +82,16 @@ export const request = async <T = unknown>(config: AxiosRequestConfig) => {
     if (isdownload) {
       data = await resolveDownload(res);
     }
+    handleAuthorizationFaied(data);
     return data;
   } catch (e) {
+    // 主动cancel的,就让一直pendding
+    if ((e as { message: string }).message === cancelString) {
+      // 取消请求的错误类型
+      const [, P] = usePromise();
+      return P as unknown as TResponse<T>;
+    }
+
     const res = (e as AxiosError<TResponse<T>>).response!;
     if (!res) {
       return {
@@ -81,6 +110,7 @@ export const request = async <T = unknown>(config: AxiosRequestConfig) => {
         message: (e as AxiosError).message || res.statusText,
       } as TResponse<T>;
     }
+    handleAuthorizationFaied(data);
     return (
       data ||
       ({

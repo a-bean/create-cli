@@ -1,3 +1,6 @@
+import { Modal } from '@arco-design/web-vue';
+import usePromise from '@/hooks/usePromise';
+
 /**
  * 下载文件
  * @param filename 文件名
@@ -51,3 +54,79 @@ export const isBoolean = (param: unknown) => isTargetType(param, '[object Boolea
  * @returns boolean
  */
 export const isObject = (param: unknown) => isTargetType(param, '[object Object]');
+
+/**
+ * 轮训某个值或者状态
+ * @param fn 回调函数
+ * @param delay 循环的间隔
+ * @returns close 函数;
+ */
+export const loop = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  fn: (...arg: any[]) => { exit: boolean } | void | Promise<{ exit: boolean }> | Promise<void>,
+  delay: number
+) => {
+  let timer: number;
+  const l = async () => {
+    const res = await fn();
+    if (res?.exit) {
+      return;
+    }
+    timer = window.setTimeout(async () => {
+      l();
+    }, delay);
+  };
+  l();
+  return () => {
+    window.clearTimeout(timer);
+  };
+};
+
+/**
+ * 判断是否为非0 等其他falsy值
+ * @param val 要判断的值
+ * @returns boolean
+ */
+export const isFalsy = (val: unknown) => {
+  return !val && val !== 0;
+};
+
+/**
+ * 复制文本到剪切板
+ * @param text 要复制的文本
+ */
+export const CopyText = (text: string) => {
+  // 非安全域
+  if (navigator?.clipboard?.writeText) {
+    navigator?.clipboard?.writeText(text);
+  } else {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'absolute';
+    textarea.style.opacity = '0';
+    textarea.style.left = '-999999px';
+    textarea.style.top = '-999999px';
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+    document.execCommand('copy');
+  }
+};
+
+/**
+ * 对modal的简单封装, 方便提醒
+ * @param title modal 的title
+ * @param content modal的content
+ * @returns
+ */
+export const awaitConfirm = (title: string, content: string) => {
+  const [resolve, P] = usePromise<boolean>();
+  Modal.confirm({
+    title,
+    content,
+    maskClosable: false,
+    onOk: () => resolve(true),
+    onCancel: () => resolve(false),
+  });
+  return P;
+};

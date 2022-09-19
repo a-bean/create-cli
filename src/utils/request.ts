@@ -152,3 +152,12 @@ export const uploadRequest = <T>(params: AxiosRequestConfig) => {
   r.onProgress = onProgress;
   return r;
 };
+
+/**
+ * 接口请求是否正常
+ * @param code request返回的code
+ * @returns boolean
+ */
+export const isSuccessRequest = (code: number | string) => {
+  return code === EResponseCode.success;
+};

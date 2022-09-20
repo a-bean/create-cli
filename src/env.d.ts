@@ -6,3 +6,15 @@ declare module '*.vue' {
   const component: DefineComponent<{}, {}, any>;
   export default component;
 }
+
+interface ImportMetaEnv {
+  readonly VITE_REQUEST_PREFIX: string;
+  /** oss 存储地域 */
+  readonly OSS_REGION: string;
+  /** oss 存储密钥 key */
+  readonly OSS_ACCESS_KEY_ID: string;
+  /** oss 存储密钥 */
+  readonly OSS_ACCESS_KEY_SECRET: string;
+  /** oss 存储桶名称 */
+  readonly BUCKET: string;
+}

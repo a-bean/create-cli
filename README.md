@@ -2,7 +2,7 @@
 
 ## 目录结构
 
-```
+```text
  ├─ .husky                     // husky 钩子目录
  | ├─ _
  | | ├─  husky.sh
@@ -56,7 +56,7 @@
 
 view 目录 demo
 
-```
+```text
   ├─ views
     └─  login
       ├─  pages                // 子页面
@@ -97,6 +97,39 @@ view 目录 demo
 
 ```
 
+## 自动引入组件和函数
+
+目前配置组件库的组件以及 src/components 目录下的组件可以自动引入。
+
+```html
+<template>
+  <div>
+    <!-- test -->
+    <div style="width: 100px">
+    <!-- 使用 src/components 下的组件 -->
+      <logo />
+    </div>
+    <hello></hello>
+    <!-- 使用组件库组件 -->
+    <AButton type="primary">
+      <template #icon>
+        <!-- 使用组件库图标 -->
+        <IconLoading />
+      </template>
+      加载中
+    </AButton>
+  </div>
+</template>
+```
+
+配置 src/composables 和 src/utils 函数可以自动引入
+
+```ts
+// 直接使用函数名称即可提示
+// eg：utils/tool.ts -> seedRandom
+const num = seedRandom(1000, 900, 9)
+```
+
 ## 全局的 scss 变量
 
 文件地址: `styles/variables.scss`;  
@@ -104,8 +137,48 @@ view 目录 demo
 
 ## ci
 
-目前仅配置`dev`环境的 `build` stage.  
-修改`gitlab-ci` 中的`line:18 projectName` 为实际目录名
+目前仅配置 `dev` 环境的 `build` stage.  
+修改 `gitlab-ci` 中的 `line:18 projectName` 为实际目录名
+
+## 阿里云 OSS 静态文件自动上传
+
+- 阿里云 OSS 主要依赖于 [vite-plugin-ali-oss](https://www.npmjs.com/package/vite-plugin-ali-oss) 这个插件实现自动化上传
+- 腾讯 OSS 则是 [vite-plugin-tencent-oss](https://github.com/taosiqi/vite-plugin-tencent-oss)
+
+以 TENCENT OSS 配置为例，对应的 OSS 配置信息放在对应的部署服务器的环境变量中：
+
+- OSS_region：对应的 OSS 地域
+- OSS_secretId：密钥对 ID
+- OSS_secretKey：密钥对密钥
+- OSS_bucket：存储桶名
+
+```ts
+import { name } from './package.json';
+
+const enableCDN = !!process.env.OSS_secretId;
+const cdnPath = `https://${process.env.OSS_bucket}.cos-website.${process.env.OSS_region}.myqcloud.com`;
+
+export default defineConfig(() => {
+  // 省略无关配置
+
+  // 服务器有密钥 ID 表明需要弃用 cdn 加速，则配置对应的 cdn 路径
+  base: enableCDN ? cdnPath : '/',
+  plugins: [
+    TencentOss({
+      region: process.env.OSS_region,
+      secretId: process.env.OSS_secretId,
+      secretKey: process.env.OSS_secretKey,
+      bucket: process.env.OSS_bucket,
+      enabled: enableCDN,
+    }),
+  ],
+  build: {
+    assetsDir: enableCDN ? `${name}/assets` : 'assets',
+  }
+})
+```
+
+对应字段释义文档：[飞书文档](https://deepwisdom.feishu.cn/wiki/wikcnNMmYcTfBu176UYWeDbpetc)
 
 ## 打包 docker 镜像
 

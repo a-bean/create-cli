@@ -1,11 +1,9 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 
-// import { Pages } from '@/constants/pages';
-
 const routes: RouteRecordRaw[] = [
   // {
   //   path: Pages.home,
-  //   component: Home
+  //   component: Home,
   // },
 ];
 

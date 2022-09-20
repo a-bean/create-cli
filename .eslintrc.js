@@ -52,6 +52,9 @@ module.exports = {
 
     'vue/multi-word-component-names': 'off',
     'import/no-extraneous-dependencies': ['error', { devDependencies: ['**/*.ts', '**/*.js'] }],
+    // 自动引入报未找到 api，ts会做校验，eslint 就不需要了
+    'no-undef': 'off',
+    'import/no-unresolved': 'off',
     'import/extensions': [
       'error',
       'always',

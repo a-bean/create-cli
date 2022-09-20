@@ -45,9 +45,11 @@ dev_static_build:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       when: never
     - if: '$CI_COMMIT_REF_NAME =~ /^(master|dev|test)$/'
-      when: always
+      # 使用后修改为always
+      when: never
     - if: '$CI_COMMIT_REF_NAME =~ /^(feat|feture)-.+$/'
-      when: manual
+      # 使用后修改为manual
+      when: never
   extends: .ding_work_notice
 
 docker_deploy:
